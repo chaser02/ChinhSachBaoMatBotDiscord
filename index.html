@@ -1,0 +1,36 @@
+1. Dữ liệu Rei thu thập
+Rei chỉ thu thập dữ liệu khi bạn chủ động tương tác với bot (tag @Rei, sử dụng lệnh . hoặc /, hoặc nhắn tin trong Thread do bot tạo). Các dữ liệu bao gồm:
+
+Thông tin tài khoản cơ bản: ID người dùng (User ID), Tên hiển thị (Display Name/Username), và các Role hiện có để xác thực quyền hạn.
+
+Nội dung tin nhắn (Text & Media): Nội dung văn bản, hình ảnh, hoặc đường link (URL) mà bạn gửi trực tiếp cho Rei để yêu cầu phân tích hoặc phản hồi.
+
+Dữ liệu "Trí nhớ" (Knowledge): Các thông tin cá nhân bạn tình cờ hoặc chủ động chia sẻ (như sở thích, mối quan hệ, cách xưng hô, biệt danh).
+
+2. Cách Rei sử dụng dữ liệu
+Vận hành cốt lõi: Nội dung chat của bạn được gửi đến API của Google Gemini để phân tích ngữ cảnh và tạo ra câu trả lời tự nhiên nhất.
+
+Cá nhân hóa (Trí nhớ dài hạn): Các thông tin cá nhân (sở thích, tên gọi) sẽ được AI tự động trích xuất và lưu vào tệp knowledge.json hoặc personas.json để Rei có thể xưng hô và trò chuyện đúng với tính cách, sở thích của riêng bạn trong những lần sau.
+
+Thực thi lệnh: Thông tin về Voice Channel (khi bạn dùng lệnh /join) hoặc Server Roles sẽ được dùng để thực thi các tác vụ âm thanh và quản trị.
+
+3. Lưu trữ và Xóa dữ liệu
+Trí nhớ ngắn hạn (Ngữ cảnh trò chuyện): Toàn bộ lịch sử chat gần nhất được lưu tạm thời trên bộ nhớ RAM của máy chủ. Bạn có thể tự tay xóa sạch ngữ cảnh này bất cứ lúc nào bằng lệnh /clear hoặc .clear. Dữ liệu này cũng tự động biến mất khi bot khởi động lại.
+
+Trí nhớ dài hạn: Dữ liệu cá nhân hóa (knowledge.json) được lưu trữ cục bộ (local) trên máy chủ riêng chạy bot, tuyệt đối không tải lên các cơ sở dữ liệu đám mây công cộng.
+
+Bảo mật quản trị: Chỉ ID của Chủ nhân (Owner) mới được cấp quyền kích hoạt các Tool quản lý (xóa tin nhắn, đổi role, kick). Dữ liệu này được hard-code bảo mật và không ai khác có thể lạm dụng.
+
+4. Chia sẻ dữ liệu với Bên thứ ba
+Để Rei hoạt động mượt mà, một phần dữ liệu của bạn sẽ được xử lý qua các dịch vụ bên thứ ba uy tín, tuân thủ nghiêm ngặt các tiêu chuẩn bảo mật:
+
+Google Gemini API: Tiếp nhận văn bản và hình ảnh để suy luận câu trả lời. Theo chính sách của Google Cloud, dữ liệu qua API không được dùng để huấn luyện mô hình AI của Google.
+
+Jina AI / Pollinations: Nhận các URL để đọc báo/tóm tắt hoặc nhận prompt để vẽ tranh.
+
+Cam kết: Trừ các API xử lý bắt buộc nêu trên, chúng tôi KHÔNG bán, trao đổi hoặc chia sẻ bất kỳ dữ liệu nào của bạn cho các bên thứ ba khác, cũng như không sử dụng cho mục đích quảng cáo.
+
+5. Quyền lợi của bạn
+Quyền được lãng quên: Nếu bạn không muốn Rei nhớ bất kỳ thông tin nào về mình (sở thích, tên gọi, tính cách riêng), bạn có quyền nhắn tin trực tiếp cho Chủ nhân bot (Owner) để yêu cầu xóa vĩnh viễn dữ liệu của bạn khỏi tệp knowledge.json.
+
+Quyền chủ động: Bằng cách không tag bot, không dùng lệnh và không nhắn vào Thread của bot, bot sẽ hoàn toàn "tàng hình" và không đọc bất kỳ tin nhắn nào của bạn trong server.
