@@ -1,36 +1,174 @@
-1. Dữ liệu Rei thu thập
-Rei chỉ thu thập dữ liệu khi bạn chủ động tương tác với bot (tag @Rei, sử dụng lệnh . hoặc /, hoặc nhắn tin trong Thread do bot tạo). Các dữ liệu bao gồm:
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Chính sách bảo mật và cách Rei#9171 xử lý dữ liệu người dùng." />
+    <title>Chính sách bảo mật | Rei#9171</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --background: #f4f7fb;
+        --surface: #ffffff;
+        --text: #172033;
+        --muted: #667085;
+        --line: #e4e9f1;
+        --accent: #356ae6;
+        --accent-soft: #edf3ff;
+        --shadow: 0 18px 50px rgba(35, 56, 91, 0.1);
+      }
 
-Thông tin tài khoản cơ bản: ID người dùng (User ID), Tên hiển thị (Display Name/Username), và các Role hiện có để xác thực quyền hạn.
+      * { box-sizing: border-box; }
 
-Nội dung tin nhắn (Text & Media): Nội dung văn bản, hình ảnh, hoặc đường link (URL) mà bạn gửi trực tiếp cho Rei để yêu cầu phân tích hoặc phản hồi.
+      body {
+        margin: 0;
+        background: linear-gradient(135deg, #eef4ff 0%, var(--background) 42%, #f9fbfd 100%);
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        line-height: 1.7;
+      }
 
-Dữ liệu "Trí nhớ" (Knowledge): Các thông tin cá nhân bạn tình cờ hoặc chủ động chia sẻ (như sở thích, mối quan hệ, cách xưng hô, biệt danh).
+      .page { width: min(100% - 32px, 900px); margin: 0 auto; padding: 64px 0 80px; }
+      .document { overflow: hidden; background: var(--surface); border: 1px solid rgba(228, 233, 241, 0.9); border-radius: 16px; box-shadow: var(--shadow); }
+      .hero { padding: 48px clamp(24px, 6vw, 64px) 40px; background: linear-gradient(135deg, #1d3f91, #356ae6); color: #ffffff; }
+      .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+      .eyebrow { margin: 0; color: #cddcff; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+      .language-button { padding: 8px 13px; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 999px; background: rgba(255, 255, 255, 0.12); color: #ffffff; font: inherit; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; cursor: pointer; transition: background 160ms ease, border-color 160ms ease; }
+      .language-button:hover, .language-button:focus-visible { border-color: #ffffff; background: rgba(255, 255, 255, 0.24); outline: none; }
+      h1, h2 { margin: 0; line-height: 1.2; }
+      h1 { max-width: 650px; margin-top: 24px; font-family: "Segoe UI", Tahoma, sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; }
+      .intro { max-width: 650px; margin: 18px 0 0; color: #e5ecff; font-size: 1.05rem; }
+      .content { padding: 12px clamp(24px, 6vw, 64px) 48px; }
+      .section { padding: 36px 0; border-bottom: 1px solid var(--line); }
+      .section:last-child { padding-bottom: 0; border-bottom: 0; }
+      h2 { display: flex; gap: 14px; align-items: baseline; color: #1c3f91; font-size: clamp(1.25rem, 3vw, 1.55rem); }
+      .number { flex: 0 0 auto; color: var(--accent); font-family: Georgia, "Times New Roman", serif; font-size: 1.1rem; }
+      .section > p { margin: 18px 0 0; color: var(--muted); }
+      .rules { display: grid; gap: 14px; margin: 22px 0 0; padding: 0; list-style: none; }
+      .rules li { padding: 18px 20px; border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; background: #fbfcff; }
+      .rules strong { color: var(--text); }
+      .note { margin-top: 22px; padding: 16px 18px; border-radius: 8px; background: var(--accent-soft); color: #29457d; }
 
-2. Cách Rei sử dụng dữ liệu
-Vận hành cốt lõi: Nội dung chat của bạn được gửi đến API của Google Gemini để phân tích ngữ cảnh và tạo ra câu trả lời tự nhiên nhất.
+      @media (max-width: 600px) {
+        .page { width: min(100% - 20px, 900px); padding: 20px 0 32px; }
+        .hero { padding: 32px 22px 28px; }
+        .hero-top { align-items: flex-start; }
+        .content { padding: 4px 22px 32px; }
+        .section { padding: 28px 0; }
+        h2 { align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <article class="document">
+        <header class="hero">
+          <div class="hero-top">
+            <p class="eyebrow">Rei#9171</p>
+            <button class="language-button" id="language-toggle" type="button" aria-pressed="false">VI <span aria-hidden="true">/</span> EN</button>
+          </div>
+          <h1 data-i18n="pageTitle">Chính sách bảo mật</h1>
+          <p class="intro" data-i18n="pageIntro">Tìm hiểu cách Rei thu thập, sử dụng, lưu trữ và bảo vệ dữ liệu của bạn.</p>
+        </header>
 
-Cá nhân hóa (Trí nhớ dài hạn): Các thông tin cá nhân (sở thích, tên gọi) sẽ được AI tự động trích xuất và lưu vào tệp knowledge.json hoặc personas.json để Rei có thể xưng hô và trò chuyện đúng với tính cách, sở thích của riêng bạn trong những lần sau.
+        <main class="content">
+          <section class="section" aria-labelledby="collection-title">
+            <h2 id="collection-title"><span class="number">01</span> <span data-i18n="collectionTitle">Dữ liệu Rei thu thập</span></h2>
+            <p data-i18n="collectionIntro">Rei chỉ thu thập dữ liệu khi bạn chủ động tương tác với bot (tag @Rei, sử dụng lệnh <code>.</code> hoặc <code>/</code>, hoặc nhắn tin trong Thread do bot tạo). Các dữ liệu bao gồm:</p>
+            <ul class="rules">
+              <li data-i18n="accountData"><strong>Thông tin tài khoản cơ bản:</strong> ID người dùng (User ID), Tên hiển thị (Display Name/Username), và các Role hiện có để xác thực quyền hạn.</li>
+              <li data-i18n="messageData"><strong>Nội dung tin nhắn (Text &amp; Media):</strong> Nội dung văn bản, hình ảnh, hoặc đường link (URL) mà bạn gửi trực tiếp cho Rei để yêu cầu phân tích hoặc phản hồi.</li>
+              <li data-i18n="knowledgeData"><strong>Dữ liệu "Trí nhớ" (Knowledge):</strong> Các thông tin cá nhân bạn tình cờ hoặc chủ động chia sẻ (như sở thích, mối quan hệ, cách xưng hô, biệt danh).</li>
+            </ul>
+          </section>
 
-Thực thi lệnh: Thông tin về Voice Channel (khi bạn dùng lệnh /join) hoặc Server Roles sẽ được dùng để thực thi các tác vụ âm thanh và quản trị.
+          <section class="section" aria-labelledby="usage-title">
+            <h2 id="usage-title"><span class="number">02</span> <span data-i18n="usageTitle">Cách Rei sử dụng dữ liệu</span></h2>
+            <ul class="rules">
+              <li data-i18n="coreOperation"><strong>Vận hành cốt lõi:</strong> Nội dung chat của bạn được gửi đến API của Google Gemini để phân tích ngữ cảnh và tạo ra câu trả lời tự nhiên nhất.</li>
+              <li data-i18n="personalization"><strong>Cá nhân hóa (Trí nhớ dài hạn):</strong> Các thông tin cá nhân (sở thích, tên gọi) sẽ được AI tự động trích xuất và lưu vào tệp knowledge.json hoặc personas.json để Rei có thể xưng hô và trò chuyện đúng với tính cách, sở thích của riêng bạn trong những lần sau.</li>
+              <li data-i18n="commands"><strong>Thực thi lệnh:</strong> Thông tin về Voice Channel (khi bạn dùng lệnh <code>/join</code>) hoặc Server Roles sẽ được dùng để thực thi các tác vụ âm thanh và quản trị.</li>
+            </ul>
+          </section>
 
-3. Lưu trữ và Xóa dữ liệu
-Trí nhớ ngắn hạn (Ngữ cảnh trò chuyện): Toàn bộ lịch sử chat gần nhất được lưu tạm thời trên bộ nhớ RAM của máy chủ. Bạn có thể tự tay xóa sạch ngữ cảnh này bất cứ lúc nào bằng lệnh /clear hoặc .clear. Dữ liệu này cũng tự động biến mất khi bot khởi động lại.
+          <section class="section" aria-labelledby="storage-title">
+            <h2 id="storage-title"><span class="number">03</span> <span data-i18n="storageTitle">Lưu trữ và xóa dữ liệu</span></h2>
+            <ul class="rules">
+              <li data-i18n="shortTerm"><strong>Trí nhớ ngắn hạn (Ngữ cảnh trò chuyện):</strong> Toàn bộ lịch sử chat gần nhất được lưu tạm thời trên bộ nhớ RAM của máy chủ. Bạn có thể tự tay xóa sạch ngữ cảnh này bất cứ lúc nào bằng lệnh <code>/clear</code> hoặc <code>.clear</code>. Dữ liệu này cũng tự động biến mất khi bot khởi động lại.</li>
+              <li data-i18n="longTerm"><strong>Trí nhớ dài hạn:</strong> Dữ liệu cá nhân hóa (knowledge.json) được lưu trữ cục bộ (local) trên máy chủ riêng chạy bot, tuyệt đối không tải lên các cơ sở dữ liệu đám mây công cộng.</li>
+              <li data-i18n="adminSecurity"><strong>Bảo mật quản trị:</strong> Chỉ ID của Chủ nhân (Owner) mới được cấp quyền kích hoạt các Tool quản lý (xóa tin nhắn, đổi role, kick). Dữ liệu này được hard-code bảo mật và không ai khác có thể lạm dụng.</li>
+            </ul>
+          </section>
 
-Trí nhớ dài hạn: Dữ liệu cá nhân hóa (knowledge.json) được lưu trữ cục bộ (local) trên máy chủ riêng chạy bot, tuyệt đối không tải lên các cơ sở dữ liệu đám mây công cộng.
+          <section class="section" aria-labelledby="third-party-title">
+            <h2 id="third-party-title"><span class="number">04</span> <span data-i18n="thirdPartyTitle">Chia sẻ dữ liệu với bên thứ ba</span></h2>
+            <p data-i18n="thirdPartyIntro">Để Rei hoạt động mượt mà, một phần dữ liệu của bạn sẽ được xử lý qua các dịch vụ bên thứ ba uy tín, tuân thủ nghiêm ngặt các tiêu chuẩn bảo mật:</p>
+            <ul class="rules">
+              <li data-i18n="gemini"><strong>Google Gemini API:</strong> Tiếp nhận văn bản và hình ảnh để suy luận câu trả lời. Theo chính sách của Google Cloud, dữ liệu qua API không được dùng để huấn luyện mô hình AI của Google.</li>
+              <li data-i18n="jina"><strong>Jina AI / Pollinations:</strong> Nhận các URL để đọc báo/tóm tắt hoặc nhận prompt để vẽ tranh.</li>
+            </ul>
+            <p class="note" data-i18n="commitment"><strong>Cam kết:</strong> Trừ các API xử lý bắt buộc nêu trên, chúng tôi KHÔNG bán, trao đổi hoặc chia sẻ bất kỳ dữ liệu nào của bạn cho các bên thứ ba khác, cũng như không sử dụng cho mục đích quảng cáo.</p>
+          </section>
 
-Bảo mật quản trị: Chỉ ID của Chủ nhân (Owner) mới được cấp quyền kích hoạt các Tool quản lý (xóa tin nhắn, đổi role, kick). Dữ liệu này được hard-code bảo mật và không ai khác có thể lạm dụng.
+          <section class="section" aria-labelledby="rights-title">
+            <h2 id="rights-title"><span class="number">05</span> <span data-i18n="rightsTitle">Quyền lợi của bạn</span></h2>
+            <ul class="rules">
+              <li data-i18n="rightToForget"><strong>Quyền được lãng quên:</strong> Nếu bạn không muốn Rei nhớ bất kỳ thông tin nào về mình (sở thích, tên gọi, tính cách riêng), bạn có quyền nhắn tin trực tiếp cho Chủ nhân bot (Owner) để yêu cầu xóa vĩnh viễn dữ liệu của bạn khỏi tệp knowledge.json.</li>
+              <li data-i18n="control"><strong>Quyền chủ động:</strong> Bằng cách không tag bot, không dùng lệnh và không nhắn vào Thread của bot, bot sẽ hoàn toàn "tàng hình" và không đọc bất kỳ tin nhắn nào của bạn trong server.</li>
+            </ul>
+            <p class="note" data-i18n="note">Bạn luôn có quyền kiểm soát việc mình tương tác với Rei và yêu cầu xử lý dữ liệu của mình.</p>
+          </section>
+        </main>
+      </article>
+    </div>
 
-4. Chia sẻ dữ liệu với Bên thứ ba
-Để Rei hoạt động mượt mà, một phần dữ liệu của bạn sẽ được xử lý qua các dịch vụ bên thứ ba uy tín, tuân thủ nghiêm ngặt các tiêu chuẩn bảo mật:
+    <script>
+      const englishContent = {
+        pageTitle: "Privacy Policy",
+        pageIntro: "Learn how Rei collects, uses, stores, and protects your data.",
+        collectionTitle: "Data Rei Collects",
+        collectionIntro: "Rei only collects data when you actively interact with the bot (mentioning @Rei, using the <code>.</code> or <code>/</code> commands, or messaging in a Thread created by the bot). This data includes:",
+        accountData: "<strong>Basic account information:</strong> User ID, Display Name/Username, and existing Roles to verify permissions.",
+        messageData: "<strong>Message content (Text &amp; Media):</strong> Text, images, or URLs that you send directly to Rei for analysis or a response.",
+        knowledgeData: "<strong>Memory data (Knowledge):</strong> Personal information that you happen to or intentionally share, such as preferences, relationships, preferred forms of address, and nicknames.",
+        usageTitle: "How Rei Uses Data",
+        coreOperation: "<strong>Core operation:</strong> Your chat content is sent to the Google Gemini API to analyze context and generate the most natural response possible.",
+        personalization: "<strong>Personalization (Long-term memory):</strong> Personal information, such as preferences and names, is automatically extracted by the AI and saved to knowledge.json or personas.json so Rei can address you and converse according to your personality and preferences in future interactions.",
+        commands: "<strong>Command execution:</strong> Voice Channel information, when you use the <code>/join</code> command, and Server Roles are used to perform audio and administrative tasks.",
+        storageTitle: "Data Storage and Deletion",
+        shortTerm: "<strong>Short-term memory (Conversation context):</strong> Recent chat history is temporarily stored in the server's RAM. You can clear this context at any time with the <code>/clear</code> or <code>.clear</code> command. This data also disappears automatically when the bot restarts.",
+        longTerm: "<strong>Long-term memory:</strong> Personalization data (knowledge.json) is stored locally on the private server running the bot and is never uploaded to public cloud databases.",
+        adminSecurity: "<strong>Administrative security:</strong> Only the Owner's ID can activate management Tools, such as deleting messages, changing Roles, or kicking users. This data is hard-coded securely and cannot be misused by anyone else.",
+        thirdPartyTitle: "Sharing Data with Third Parties",
+        thirdPartyIntro: "To keep Rei running smoothly, some of your data is processed through trusted third-party services that follow strict security standards:",
+        gemini: "<strong>Google Gemini API:</strong> Receives text and images to infer a response. Under Google Cloud's policy, data sent through the API is not used to train Google's AI models.",
+        jina: "<strong>Jina AI / Pollinations:</strong> Receives URLs to read or summarize articles, or prompts to generate images.",
+        commitment: "<strong>Our commitment:</strong> Except for the processing APIs listed above, we do NOT sell, trade, or share any of your data with other third parties, nor do we use it for advertising.",
+        rightsTitle: "Your Rights",
+        rightToForget: "<strong>Right to be forgotten:</strong> If you do not want Rei to remember any information about you, such as preferences, names, or personal traits, you may message the bot's Owner directly to request permanent deletion of your data from knowledge.json.",
+        control: "<strong>Your control:</strong> If you do not mention the bot, use its commands, or message in its Threads, the bot remains completely \"hidden\" and will not read any of your messages on the server.",
+        note: "You always have control over how you interact with Rei and may request that your data be handled accordingly."
+      };
 
-Google Gemini API: Tiếp nhận văn bản và hình ảnh để suy luận câu trả lời. Theo chính sách của Google Cloud, dữ liệu qua API không được dùng để huấn luyện mô hình AI của Google.
+      const translatableElements = document.querySelectorAll("[data-i18n]");
+      const vietnameseContent = new Map(Array.from(translatableElements, (element) => [element.dataset.i18n, element.innerHTML]));
+      const languageButton = document.querySelector("#language-toggle");
 
-Jina AI / Pollinations: Nhận các URL để đọc báo/tóm tắt hoặc nhận prompt để vẽ tranh.
+      function setLanguage(language) {
+        const isEnglish = language === "en";
+        translatableElements.forEach((element) => {
+          const key = element.dataset.i18n;
+          element.innerHTML = isEnglish ? englishContent[key] : vietnameseContent.get(key);
+        });
+        document.documentElement.lang = language;
+        document.title = isEnglish ? "Privacy Policy | Rei#9171" : "Chính sách bảo mật | Rei#9171";
+        document.querySelector('meta[name="description"]').content = isEnglish ? "Privacy policy and data practices for Rei#9171." : "Chính sách bảo mật và cách Rei#9171 xử lý dữ liệu người dùng.";
+        languageButton.setAttribute("aria-pressed", String(isEnglish));
+      }
 
-Cam kết: Trừ các API xử lý bắt buộc nêu trên, chúng tôi KHÔNG bán, trao đổi hoặc chia sẻ bất kỳ dữ liệu nào của bạn cho các bên thứ ba khác, cũng như không sử dụng cho mục đích quảng cáo.
-
-5. Quyền lợi của bạn
-Quyền được lãng quên: Nếu bạn không muốn Rei nhớ bất kỳ thông tin nào về mình (sở thích, tên gọi, tính cách riêng), bạn có quyền nhắn tin trực tiếp cho Chủ nhân bot (Owner) để yêu cầu xóa vĩnh viễn dữ liệu của bạn khỏi tệp knowledge.json.
-
-Quyền chủ động: Bằng cách không tag bot, không dùng lệnh và không nhắn vào Thread của bot, bot sẽ hoàn toàn "tàng hình" và không đọc bất kỳ tin nhắn nào của bạn trong server.
+      languageButton.addEventListener("click", () => {
+        setLanguage(document.documentElement.lang === "vi" ? "en" : "vi");
+      });
+    </script>
+  </body>
+</html>
